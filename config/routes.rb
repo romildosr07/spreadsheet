@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'static/index'
   resources :part_or_services do
     collection do
       get 'by_spreadsheet/:spreadsheet_table_id', to: 'part_or_services#by_spreadsheet'
@@ -14,5 +15,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root to: 'static#index'
+
+  get '*path', to: 'static#index', constraints: ->(req) { !req.xhr? && req.format.html? }
 end
